@@ -10,6 +10,7 @@
 	<body>
 		<div id="play" class="show">
 			<div>
+				<h3>The site has Audio.</h3>
 				<button id="playButton">Play</button>
 			</div>
 		</div>
@@ -32,6 +33,7 @@
 			const main = document.getElementById("main");
 
 			const pride_of_india = document.getElementById("pride_of_india");
+			let consent = false;
 
 			playButton.addEventListener('click', () => {
 				play.classList.remove('show');
@@ -39,6 +41,7 @@
 				main.classList.remove('none');
 				main.classList.add('show');
 				pride_of_india.play();
+				consent = true;
 			})
 
 			import * as THREE from '../build/three.module.js';
@@ -137,6 +140,7 @@
 			function animate() {
 
 				requestAnimationFrame( animate );
+				if(consent){
 
 				// const delta = clock.getDelta();
 
@@ -146,7 +150,7 @@
 
 				// stats.update();
 
-				renderer.render( scene, camera );
+				renderer.render( scene, camera );}
 
 			}
 
