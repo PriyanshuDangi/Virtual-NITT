@@ -8,14 +8,38 @@
 	</head>
 
 	<body>
-
-		<div id="container"></div>
-
-		<div id="info">
-			<div id="bottom">Made with ❤ by <a href="https://priyanshudangi.github.io/">Priyanshu Dangi</a></div>
+		<div id="play" class="show">
+			<div>
+				<button id="playButton">Play</button>
+			</div>
+		</div>
+		<div id="main" class="none">
+			<div id="container"></div>
+			<audio conrols id="pride_of_india">
+				<source src="./assets/sounds/pride_of_india.mp4" >
+			Your browser does not support the audio element.
+			</audio>
+			<div id="info">
+				<div id="bottom">Made with ❤ by <a href="https://priyanshudangi.github.io/">Priyanshu Dangi</a></div>
+			</div>
 		</div>
 
+
 		<script type="module">
+
+			const playButton = document.getElementById("playButton");
+			const play = document.getElementById("play");
+			const main = document.getElementById("main");
+
+			const pride_of_india = document.getElementById("pride_of_india");
+
+			playButton.addEventListener('click', () => {
+				play.classList.remove('show');
+				play.classList.add('none');
+				main.classList.remove('none');
+				main.classList.add('show');
+				pride_of_india.play();
+			})
 
 			import * as THREE from '../build/three.module.js';
 
@@ -27,11 +51,11 @@
 
 			// let mixer;
 
-			const clock = new THREE.Clock();
-			const container = document.getElementById( 'container' );
+			// const clock = new THREE.Clock();
+			// const container = document.getElementById( 'container' );
 
-			const stats = new Stats();
-			container.appendChild( stats.dom );
+			// const stats = new Stats();
+			// container.appendChild( stats.dom );
 
 			const renderer = new THREE.WebGLRenderer( { antialias: true } );
 			renderer.setPixelRatio( window.devicePixelRatio );
@@ -43,7 +67,7 @@
 			scene.background = new THREE.Color( 0xbfe3dd );
 
 			const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
-			camera.position.set(0, 2, -14 );
+			camera.position.set(0, 0, -14 );
 
 			const controls = new OrbitControls( camera, renderer.domElement );
 			controls.target.set( 0, 0, 0 );
@@ -71,13 +95,14 @@
 			const dracoLoader = new DRACOLoader();
 			dracoLoader.setDecoderPath( 'js/libs/draco/gltf/' );
 
+
 			const loader = new GLTFLoader();
 			loader.setDRACOLoader( dracoLoader );
 			loader.load( 'nitt.glb', function ( gltf ) {
 
 				const model = gltf.scene;
 				model.position.set( 0, -2, 0 );
-				model.scale.set( 0.7, 0.7, 0.7 );
+				model.scale.set( 0.6, 0.6, 0.6 );
 				model.traverse( function ( child ) {
 
 					if ( child.isMesh ) child.material.envMap = envMap;
@@ -90,6 +115,7 @@
 				// mixer.clipAction( gltf.animations[ 0 ] ).play();
 
 				animate();
+				// pride_of_india.play();
 
 			}, undefined, function ( e ) {
 
@@ -118,7 +144,7 @@
 
 				controls.update();
 
-				stats.update();
+				// stats.update();
 
 				renderer.render( scene, camera );
 
