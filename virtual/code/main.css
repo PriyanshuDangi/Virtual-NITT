@@ -104,10 +104,11 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	text-align: center;
 }
 
 #playButton{
-	font-size: 20px;
+	font-size: 16px;
 	padding: 8px 12px;
 }
 
