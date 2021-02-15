@@ -97,3 +97,28 @@ a {
 	top: auto;
 	bottom: 10px;
 }
+
+#play {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#playButton{
+	font-size: 20px;
+	padding: 8px 12px;
+}
+
+/* #play > div{
+	height: 20%;
+} */
+
+.show{
+	display: block;
+}
+
+.none {
+	display: none !important;
+}
