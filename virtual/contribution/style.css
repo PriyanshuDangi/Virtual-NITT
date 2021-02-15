@@ -1,0 +1,39 @@
+body {
+	background-color: #bfe3dd;
+	color: #000;
+    margin: auto;
+    font-family: Monospace;
+}
+
+a {
+	color: #2983ff;
+    text-decoration: none;
+}
+
+.main-container {
+    margin: auto;
+    /* width: 60%; */
+    max-width: 700px;
+    width: 90%;
+}
+
+.center{
+    text-align: center;
+}
+
+.heading {
+    text-align: center;
+    text-decoration: underline;
+}
+
+.content > div {
+    margin: 10px;
+}
+
+#bottom {
+    width: 100%;
+    position: fixed;
+    bottom: 10px;
+    text-align: center;
+    background-color: #bfe3dd; 
+}
