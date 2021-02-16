@@ -37,3 +37,7 @@ a {
     text-align: center;
     background-color: #bfe3dd; 
 }
+
+#contributorsList > li{
+    margin: 6px;
+}
