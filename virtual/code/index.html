@@ -10,7 +10,8 @@
 
 		gtag('config', 'G-5PN516R24R');
 		</script>
-		<title>NITT Admin Block</title>
+		<title>NIT-Trichy Tour</title>
+		<link rel="icon" href="./assets/images/logo.png" type="image/x-icon">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -39,7 +40,7 @@
 			<div id="info">
 				<div id="bottom">
 					<div>Made with ❤ by <a href="https://priyanshudangi.github.io/" target="_blank">Priyanshu Dangi</a></div>
-					<div>Loved the Project! Want to <a href="https://priyanshudangi.github.io/Virtual-NITT/virtual/contribution/index.html" target="_blank">Contribute?</a></div>
+					<div>Loved the Project? Want to <a href="https://priyanshudangi.github.io/Virtual-NITT/virtual/contribution/index.html" target="_blank">Contribute?</a></div>
 					<!-- <div>Follow me on <a href="https://www.instagram.com/priyanshu._.11/" target="_blank">Instagram</a> & <a href="https://twitter.com/PriyanshuDangi1" target="_blank">Twitter</a></div> -->
 				</div>
 			</div>
@@ -62,6 +63,7 @@
 				play.classList.add('none');
 				main.classList.remove('none');
 				main.classList.add('show');
+				console.log("played");
 				pride_of_india.play();
 				consent = true;
 			})
@@ -108,7 +110,8 @@
 			scene.background = new THREE.Color( 0xbfe3dd );
 
 			const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 100 );
-			camera.position.set(0, 0, -60 );
+			// const camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 100	, 1000 );
+			camera.position.set(-3, 0.6, -70 );
 			camera.lookAt(0,0,0);
 
 			// const controls = new OrbitControls( camera, renderer.domElement );
@@ -119,12 +122,12 @@
 			// controls.minDistance = 7;
 			// controls.maxDistance = 70;
 
-			scene.add( new THREE.HemisphereLight( 0xffffff, 0x000000, 0.4 ) );
-			// scene.fog = new THREE.Fog( 0xbfe3dd, 0, 40 );
+			scene.add( new THREE.HemisphereLight( 0xffffff, 0x000000, 1 ) );
+			// scene.fog = new THREE.Fog( 0xbfe3dd, 0, 50 );
 
-			// const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-			// dirLight.position.set( 5, 2, -18 );
-			// scene.add( dirLight );
+			const dirLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+			dirLight.position.set( -2, 0, 0 );
+			scene.add( dirLight );
 
 			let controls = new PointerLockControls( camera, document.body );
 
@@ -243,9 +246,11 @@ document.addEventListener( 'keyup', onKeyUp );
 				// pride_of_india.play();
 
 			},function ( xhr ) {
-
+				let num = ( xhr.loaded / xhr.total * 100 );
+				if(isFinite(num)){
+					percentageDiv.textContent = (( xhr.loaded / xhr.total * 100 )).toFixed(1) + '% loaded';
+				}
 				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-				percentageDiv.textContent = (( xhr.loaded / xhr.total * 100 )).toFixed(1) + '% loaded';
 
 			}, function ( e ) {
 
@@ -318,8 +323,8 @@ document.addEventListener( 'keyup', onKeyUp );
 
 					if(currentPos.z > -10){
 						controls.getObject().position.z = -10;
-					}else if(currentPos.z < -60){
-						controls.getObject().position.z = -60;
+					}else if(currentPos.z < -70){
+						controls.getObject().position.z = -70;
 					}
 
 					if(currentPos.x > 10){
@@ -334,7 +339,7 @@ document.addEventListener( 'keyup', onKeyUp );
 							controls.getObject().position.z = -47;
 						}
 					}
-					else if(currentPos.z < -31.5 && currentPos.z > -47){ // for the entrance road
+					else if(currentPos.z < -32 && currentPos.z > -47){ // for the entrance road
 						if(currentPos.x > 3.5){
 							controls.getObject().position.x = 3.5;
 						}else if(currentPos.x < -3.5){
@@ -347,10 +352,10 @@ document.addEventListener( 'keyup', onKeyUp );
 							}
 						}
 					}
-					else if(currentPos.z >= -31.5 && currentPos.z < -27){ // for the center road
-						if(currentPos.z <= -31.4 && (currentPos.x > 3.5 || currentPos.x < -3.5 || currentPos.x < 1.5 && currentPos.x > -1.5)){
+					else if(currentPos.z >= -32 && currentPos.z < -27){ // for the center road
+						if(currentPos.z <= -31.9 && (currentPos.x > 3.5 || currentPos.x < -3.5 || currentPos.x < 1.5 && currentPos.x > -1.5)){
 							// currentPos.z = -31.4;
-							controls.getObject().position.z = -31.4;
+							controls.getObject().position.z = -31.9;
 						}else if(currentPos.z >= -27.7 && (currentPos.x > 6.5 || currentPos.x < -6.5 || currentPos.x < 4 && currentPos.x > -4)){
 							// currentPos.z = -27.7;
 							controls.getObject().position.z = -27.7;
