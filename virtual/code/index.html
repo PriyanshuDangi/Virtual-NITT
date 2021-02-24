@@ -19,9 +19,15 @@
 	<body>
 		<div id="play" class="show">
 			<div>
-				<div>The building is a 3D model. You can use mouse pointer(drag and rotate) or touch to move through it.</div>
+				<div>It is a 3D model. You can use mouse pointer(drag and rotate), can click over screen and move using the keyboard keys.</div>
 				<h3>The site has Audio.</h3>
-				<button id="playButton">Play</button>
+				<div id="loading" class="show">
+					<div>For the first time the 3d model will take a few seconds to load.</div>
+					<div>Loading...</div>
+					<div id="percentage"></div>
+				</div>
+				<button id="playButton" class="none">Play</button>
+				
 			</div>
 		</div>
 		<div id="main" class="none">
@@ -43,6 +49,8 @@
 		<script type="module">
 
 			const playButton = document.getElementById("playButton");
+			const percentageDiv = document.getElementById("percentage");
+			const laodingDiv = document.getElementById("loading");
 			const play = document.getElementById("play");
 			const main = document.getElementById("main");
 
@@ -59,12 +67,15 @@
 			})
 
 			import * as THREE from '../build/three.module.js';
+			import { PointerLockControls } from './jsm/controls/PointerLockControls.js';
 
 			import Stats from './jsm/libs/stats.module.js';
 
 			import { OrbitControls } from './jsm/controls/OrbitControls.js';
 			import { GLTFLoader } from './jsm/loaders/GLTFLoader.js';
 			import { DRACOLoader } from './jsm/loaders/DRACOLoader.js';
+
+			THREE.Cache.enabled = true
 
 			// let mixer;
 
@@ -73,6 +84,19 @@
 
 			// const stats = new Stats();
 			// container.appendChild( stats.dom );
+
+			let moveForward = false;
+			let moveBackward = false;
+			let moveLeft = false;
+			let moveRight = false;
+			let canJump = false;
+
+			let prevTime = performance.now();
+			const velocity = new THREE.Vector3();
+			const direction = new THREE.Vector3();
+			const vertex = new THREE.Vector3();
+			const color = new THREE.Color();
+			let currentPos = new THREE.Vector3();
 
 			const renderer = new THREE.WebGLRenderer( { antialias: true } );
 			renderer.setPixelRatio( window.devicePixelRatio );
@@ -83,22 +107,102 @@
 			const scene = new THREE.Scene();
 			scene.background = new THREE.Color( 0xbfe3dd );
 
-			const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 100 );
-			camera.position.set(0, 0, -14 );
+			const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 100 );
+			camera.position.set(0, 0, -60 );
+			camera.lookAt(0,0,0);
 
-			const controls = new OrbitControls( camera, renderer.domElement );
-			controls.target.set( 0, 0, 0 );
-			controls.update();
-			controls.enablePan = false;
-			controls.enableDamping = true;
-			controls.minDistance = 7;
-			controls.maxDistance = 70;
+			// const controls = new OrbitControls( camera, renderer.domElement );
+			// controls.target.set( 0, 0, 0 );
+			// controls.update();
+			// controls.enablePan = false;
+			// controls.enableDamping = true;
+			// controls.minDistance = 7;
+			// controls.maxDistance = 70;
 
 			scene.add( new THREE.HemisphereLight( 0xffffff, 0x000000, 0.4 ) );
+			// scene.fog = new THREE.Fog( 0xbfe3dd, 0, 40 );
 
-			const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-			dirLight.position.set( 5, 2, -18 );
-			scene.add( dirLight );
+			// const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+			// dirLight.position.set( 5, 2, -18 );
+			// scene.add( dirLight );
+
+			let controls = new PointerLockControls( camera, document.body );
+
+			main.addEventListener( 'click', function () {
+
+				controls.lock();
+
+			} );
+
+			// scene.add( controls.getObject() );
+
+			const onKeyDown = function ( event ) {
+
+switch ( event.code ) {
+
+	case 'ArrowUp':
+	case 'KeyW':
+		moveForward = true;
+		break;
+
+	case 'ArrowLeft':
+	case 'KeyA':
+		moveLeft = true;
+		break;
+
+	case 'ArrowDown':
+	case 'KeyS':
+		moveBackward = true;
+		break;
+
+	case 'ArrowRight':
+	case 'KeyD':
+		moveRight = true;
+		break;
+
+	case 'Space':
+		if ( canJump === true ) velocity.y += 350;
+		canJump = false;
+		break;
+
+	case 'KeyP':
+		console.log(controls.getObject().position);
+		break;
+
+}
+
+};
+
+const onKeyUp = function ( event ) {
+
+switch ( event.code ) {
+
+	case 'ArrowUp':
+	case 'KeyW':
+		moveForward = false;
+		break;
+
+	case 'ArrowLeft':
+	case 'KeyA':
+		moveLeft = false;
+		break;
+
+	case 'ArrowDown':
+	case 'KeyS':
+		moveBackward = false;
+		break;
+
+	case 'ArrowRight':
+	case 'KeyD':
+		moveRight = false;
+		break;
+
+}
+
+};
+
+document.addEventListener( 'keydown', onKeyDown );
+document.addEventListener( 'keyup', onKeyUp );
 
 			// envmap
 			// const path = 'textures/cube/Park2/';
@@ -115,26 +219,35 @@
 
 			const loader = new GLTFLoader();
 			loader.setDRACOLoader( dracoLoader );
+			let model;
 			loader.load( 'nitt.glb', function ( gltf ) {
 
-				const model = gltf.scene;
-				model.position.set( 0, -2, 0 );
-				model.scale.set( 0.6, 0.6, 0.6 );
+				 model = gltf.scene;
+				model.position.set( 0, -1, 0 );
+				model.scale.set( 1, 1, 1 );
 				// model.traverse( function ( child ) {
 
 				// 	if ( child.isMesh ) child.material.envMap = envMap;
 
 				// } );
+				loading.classList.add('none')
+				playButton.classList.remove('none');
 
 				scene.add( model );
 
 				// mixer = new THREE.AnimationMixer( model );
 				// mixer.clipAction( gltf.animations[ 0 ] ).play();
-
+				THREE.Cache.add("model", model);
+				// Three.Cache.files = model;
 				animate();
 				// pride_of_india.play();
 
-			}, undefined, function ( e ) {
+			},function ( xhr ) {
+
+				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+				percentageDiv.textContent = (( xhr.loaded / xhr.total * 100 )).toFixed(1) + '% loaded';
+
+			}, function ( e ) {
 
 				console.error( e );
 
@@ -150,21 +263,140 @@
 
 			};
 
+			// console.log(controls.getObject())
 
 			function animate() {
+				// console.log(controls.getObject())
 
 				requestAnimationFrame( animate );
-				if(consent){
+				// if(consent){
 
-				// const delta = clock.getDelta();
+				// 	// const delta = clock.getDelta();
 
-				// mixer.update( delta );
+				// 	// mixer.update( delta );
 
-				controls.update();
+				// 	controls.update();
 
-				// stats.update();
+				// 	// stats.update();
 
-				renderer.render( scene, camera );}
+				// 	renderer.render( scene, camera );
+				
+				// }
+
+				const time = performance.now();
+				if ( controls.isLocked === true ) {
+
+					// raycaster.ray.origin.copy( controls.getObject().position );
+					// raycaster.ray.origin.y -= 10;
+
+					// const intersections = raycaster.intersectObjects( objects );
+
+					// const onObject = intersections.length > 0;
+
+					const delta = ( time - prevTime ) / 1000;
+
+					velocity.x -= velocity.x * 10.0 * delta;
+					velocity.z -= velocity.z * 10.0 * delta;
+
+					velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+					direction.z = Number( moveForward ) - Number( moveBackward );
+					direction.x = Number( moveRight ) - Number( moveLeft );
+					direction.normalize(); // this ensures consistent movements in all directions
+					if ( moveForward || moveBackward ) velocity.z -= direction.z * 40.0 * delta;
+					if ( moveLeft || moveRight ) velocity.x -= direction.x * 40.0 * delta;
+
+					// if ( onObject === true ) {
+
+					// 	velocity.y = Math.max( 0, velocity.y );
+					// 	canJump = true;
+
+					// }
+					currentPos = controls.getObject().position;
+					controls.moveRight( - velocity.x * delta );
+					controls.moveForward( - velocity.z * delta );
+
+					if(currentPos.z > -10){
+						controls.getObject().position.z = -10;
+					}else if(currentPos.z < -60){
+						controls.getObject().position.z = -60;
+					}
+
+					if(currentPos.x > 10){
+						controls.getObject().position.x = 10;
+					}else if(currentPos.x < -10){
+						controls.getObject().position.x = -10;
+					}
+					// for the road outside college
+					if(currentPos.z <= -46){
+						if(currentPos.z >= -47 && (currentPos.x > 3.5 || currentPos.x < -3.5 || currentPos.x < 1.5 && currentPos.x > -1.5)){
+							// currentPos.z = -47
+							controls.getObject().position.z = -47;
+						}
+					}
+					else if(currentPos.z < -31.5 && currentPos.z > -47){ // for the entrance road
+						if(currentPos.x > 3.5){
+							controls.getObject().position.x = 3.5;
+						}else if(currentPos.x < -3.5){
+							controls.getObject().position.x = -3.5;
+						}else if(currentPos.x < 1 && currentPos.x > -1){
+							if(currentPos.x >= 0){
+								controls.getObject().position.x = 1;
+							}else{
+								controls.getObject().position.x = -1;
+							}
+						}
+					}
+					else if(currentPos.z >= -31.5 && currentPos.z < -27){ // for the center road
+						if(currentPos.z <= -31.4 && (currentPos.x > 3.5 || currentPos.x < -3.5 || currentPos.x < 1.5 && currentPos.x > -1.5)){
+							// currentPos.z = -31.4;
+							controls.getObject().position.z = -31.4;
+						}else if(currentPos.z >= -27.7 && (currentPos.x > 6.5 || currentPos.x < -6.5 || currentPos.x < 4 && currentPos.x > -4)){
+							// currentPos.z = -27.7;
+							controls.getObject().position.z = -27.7;
+						}
+					}else if(currentPos.z >= -27 && currentPos.z <= -12){
+						if(currentPos.x > 6.4){
+							controls.getObject().position.x = 6.4;
+						}else if(currentPos.x < -6.4){
+							controls.getObject().position.x = -6.4;
+						}
+						if(currentPos.z >= -13.6){
+							if(currentPos.z < -13.5 && (currentPos.x < 3.5 && currentPos.x > -3.5)){
+								controls.getObject().position.z = -13.5;
+							}
+						}else{
+							if(currentPos.z <= -26.5 && (currentPos.x < 4 && currentPos.x > -4)){
+								controls.getObject().position.z = -26.5;
+							}else if(currentPos.z >= -24.7 && currentPos.z <= -24.6 && (currentPos.x < 3.5 && currentPos.x > -3.5)){
+								controls.getObject().position.z = -24.7;
+							}else if(currentPos.x < 3.5 && currentPos.x > 0 && (currentPos.z > -24.7 && currentPos.z < -13.5)){
+								controls.getObject().position.x = 3.5;
+							}else if(currentPos.x > -3.5 && currentPos.x < 0 && (currentPos.z > -24.7 && currentPos.z < -13.5)){
+								controls.getObject().position.x = -3.5;
+							}
+						}
+
+					}
+
+
+					// controls.getObject().position.y += ( velocity.y * delta ); // new behavior
+
+					// if ( controls.getObject().position.y < 10 ) {
+
+					// 	velocity.y = 0;
+					// 	controls.getObject().position.y = 10;
+
+					// 	canJump = true;
+
+					// }
+
+					// controls.update();
+
+				}
+
+				prevTime = time;
+				renderer.render( scene, camera );
 
 			}
 
