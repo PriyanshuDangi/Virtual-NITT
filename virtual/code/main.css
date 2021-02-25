@@ -3,9 +3,13 @@ body {
 	background-color: #000;
 	color: #fff;
 	font-family: Monospace;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 24px;
 	overscroll-behavior: none;
+}
+
+#play a {
+	color: #2983ff;
 }
 
 a {
@@ -36,6 +40,7 @@ button {
 	user-select: none;
 	pointer-events: none;
 	z-index: 1; /* TODO Solve this in HTML */
+	font-size: large;
 }
 
 a, button, input, select {
@@ -107,6 +112,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+	/* margin: 15px; */
 }
 
 #playButton{
@@ -124,4 +130,9 @@ body {
 
 .none {
 	display: none !important;
+}
+
+.heart {
+    color: red;
+    font-size: 1.8em;
 }

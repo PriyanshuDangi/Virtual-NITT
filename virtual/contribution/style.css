@@ -26,6 +26,10 @@ a {
     text-decoration: underline;
 }
 
+.content {
+    margin-bottom: 50px;
+}
+
 .content > div {
     margin: 10px;
 }
@@ -40,4 +44,19 @@ a {
 
 #contributorsList > li{
     margin: 6px;
+}
+
+.sponsor > div {
+    text-align: center;
+}
+.sponsor > .text {
+    font-size: 16px;
+}
+#sponsor-header {
+    text-align: center;
+}
+
+.heart {
+    color: red;
+    font-size: 1.8em;
 }
