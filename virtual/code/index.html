@@ -20,10 +20,12 @@
 	<body>
 		<div id="play" class="show">
 			<div>
-				<div>It is a 3D model. You can use mouse pointer(drag and rotate), can click over screen and move using the keyboard keys.</div>
+				<div>It is a 3D model. You can use mouse pointer(drag and rotate), can click over screen and move using the wasd or arrow keys.</div>
+				<div>Currently devices without a pointer(E.g. Mobile Phones) are not supported. But, soon it will be, we are working on it.</div>
+				<div>Check our <a href="https://priyanshudangi.github.io/Virtual-NITT/virtual/contribution/index.html" target="_blank">contribution page</a>.</div>
 				<h3>The site has Audio.</h3>
 				<div id="loading" class="show">
-					<div>For the first time the 3d model will take a few seconds to load.</div>
+					<div>For the first time the 3d model will take a few seconds to load.</div>					
 					<div>Loading...</div>
 					<div id="percentage"></div>
 				</div>
@@ -39,10 +41,13 @@
 			</audio>
 			<div id="info">
 				<div id="bottom">
-					<div>Made with ❤ by <a href="https://priyanshudangi.github.io/" target="_blank">Priyanshu Dangi</a></div>
+					<div>Made with <span class="heart">❤</span> by <a href="https://priyanshudangi.github.io/" target="_blank">Priyanshu Dangi</a></div>
 					<div>Loved the Project? Want to <a href="https://priyanshudangi.github.io/Virtual-NITT/virtual/contribution/index.html" target="_blank">Contribute?</a></div>
 					<!-- <div>Follow me on <a href="https://www.instagram.com/priyanshu._.11/" target="_blank">Instagram</a> & <a href="https://twitter.com/PriyanshuDangi1" target="_blank">Twitter</a></div> -->
 				</div>
+				<!-- <div>
+					<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="priyanshudangi" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+				</div> -->
 			</div>
 		</div>
 
@@ -141,71 +146,71 @@
 
 			const onKeyDown = function ( event ) {
 
-switch ( event.code ) {
+				switch ( event.code ) {
 
-	case 'ArrowUp':
-	case 'KeyW':
-		moveForward = true;
-		break;
+					case 'ArrowUp':
+					case 'KeyW':
+						moveForward = true;
+						break;
 
-	case 'ArrowLeft':
-	case 'KeyA':
-		moveLeft = true;
-		break;
+					case 'ArrowLeft':
+					case 'KeyA':
+						moveLeft = true;
+						break;
 
-	case 'ArrowDown':
-	case 'KeyS':
-		moveBackward = true;
-		break;
+					case 'ArrowDown':
+					case 'KeyS':
+						moveBackward = true;
+						break;
 
-	case 'ArrowRight':
-	case 'KeyD':
-		moveRight = true;
-		break;
+					case 'ArrowRight':
+					case 'KeyD':
+						moveRight = true;
+						break;
 
-	case 'Space':
-		if ( canJump === true ) velocity.y += 350;
-		canJump = false;
-		break;
+					case 'Space':
+						if ( canJump === true ) velocity.y += 350;
+						canJump = false;
+						break;
 
-	case 'KeyP':
-		console.log(controls.getObject().position);
-		break;
+						case 'KeyP':
+							console.log(controls.getObject().position);
+							break;
 
-}
+					}
 
-};
+			};
 
-const onKeyUp = function ( event ) {
+			const onKeyUp = function ( event ) {
 
-switch ( event.code ) {
+				switch ( event.code ) {
 
-	case 'ArrowUp':
-	case 'KeyW':
-		moveForward = false;
-		break;
+					case 'ArrowUp':
+					case 'KeyW':
+						moveForward = false;
+						break;
 
-	case 'ArrowLeft':
-	case 'KeyA':
-		moveLeft = false;
-		break;
+					case 'ArrowLeft':
+					case 'KeyA':
+						moveLeft = false;
+						break;
 
-	case 'ArrowDown':
-	case 'KeyS':
-		moveBackward = false;
-		break;
+					case 'ArrowDown':
+					case 'KeyS':
+						moveBackward = false;
+						break;
 
-	case 'ArrowRight':
-	case 'KeyD':
-		moveRight = false;
-		break;
+					case 'ArrowRight':
+					case 'KeyD':
+						moveRight = false;
+						break;
 
-}
+				}
 
-};
+			};
 
-document.addEventListener( 'keydown', onKeyDown );
-document.addEventListener( 'keyup', onKeyUp );
+			document.addEventListener( 'keydown', onKeyDown );
+			document.addEventListener( 'keyup', onKeyUp );
 
 			// envmap
 			// const path = 'textures/cube/Park2/';
