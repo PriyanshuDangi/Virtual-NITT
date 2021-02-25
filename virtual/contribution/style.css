@@ -52,11 +52,18 @@ a {
 .sponsor > .text {
     font-size: 16px;
 }
-#sponsor-header {
+#sponsor-header > span{
+    color: #2983ff;
     text-align: center;
+    padding-bottom: 3px;
+    border-bottom: 3px solid #2983ff;
 }
 
 .heart {
     color: red;
     font-size: 1.8em;
+}
+
+#interestedText {
+    margin-top: 30px;
 }
