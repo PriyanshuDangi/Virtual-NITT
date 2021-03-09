@@ -14,4 +14,4 @@ You might face cors error, disable it in your broweser while loading the page. O
 Read our [contributor guide](./docs/CONTRIBUTING.md) to learn how you can submit bug reports, feature requests, and pull requests.
 
 ## License
-Virtual-NITT is licensed with the MIT License
+Virtual-NITT is licensed with the [MIT License](./LICENSE)
