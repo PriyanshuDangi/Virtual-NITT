@@ -1,5 +1,5 @@
 # Virtual-NITT
-The online 3D model of NIT-Trichy.
+The online 3D model of NIT-Trichy. (Planning on making it usable with any other model)
 
 ## Getting Started
 ```
