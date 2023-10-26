@@ -57,7 +57,7 @@ a, button, input, select {
 
 #overlay {
 	position: absolute;
-	font-size: 16px;
+	font-size: 15px;
 	z-index: 2;
 	top: 0;
 	left: 0;
@@ -90,7 +90,7 @@ a, button, input, select {
 }
 
 body {
-	background-color: #bfe3dd;
+	background-color: #bfd0e3;
 	color: #000;
 }
 
@@ -116,8 +116,8 @@ body {
 }
 
 #playButton{
-	font-size: 16px;
-	padding: 8px 12px;
+	font-size: 15px;
+	padding: 9px 12px;
 }
 
 /* #play > div{
