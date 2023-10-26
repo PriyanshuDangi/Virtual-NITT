@@ -3,7 +3,7 @@ body {
 	background-color: #000;
 	color: #fff;
 	font-family: Monospace;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 24px;
 	overscroll-behavior: none;
 }
@@ -117,7 +117,7 @@ body {
 
 #playButton{
 	font-size: 15px;
-	padding: 9px 12px;
+	padding: 7px 12px;
 }
 
 /* #play > div{
