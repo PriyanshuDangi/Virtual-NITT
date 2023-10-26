@@ -1,5 +1,5 @@
 # Virtual-NITT
-The online 3D model of NIT-Trichy. (Planning on making it usable with any other model)
+This is the  online 3D model of NIT-Trichy, a premier engineering college in India (Planning on making it usable with any other model)
 
 ## Getting Started
 ```
