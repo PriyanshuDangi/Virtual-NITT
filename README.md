@@ -6,7 +6,7 @@ This is the  online 3D model of NIT-Trichy, a premier engineering college in Ind
 git clone https://github.com/PriyanshuDangi/Virtual-NITT.git
 open virtual/code/index.html in browser
 ```
-You might face cors error, disable it in your broweser while loading the page. Or, open the html file with live server using the vs-code extension [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+You might face cors error, disable it in your browser while loading the page. Or, open the html file with live server using the vs-code extension [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
 
 ## Contributing
