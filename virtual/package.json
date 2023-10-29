@@ -2,20 +2,19 @@
   "name": "virtual",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "vite.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build && cp ./code/nitt.glb ./code/dist/",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "three": "^0.157.0"
-  },
   "devDependencies": {
     "vite": "^4.5.0"
+  },
+  "dependencies": {
+    "three": "^0.158.0"
   }
 }
