@@ -18,11 +18,19 @@
 	<meta property="og:title" content="Virtual NIT Trichy | 3D Campus Tour">
 	<meta property="og:description" content="Explore NIT Tiruchirappalli in an immersive 3D virtual campus tour.">
 	<meta property="og:type" content="website">
-	<link rel="icon" href="/assets/images/logo.png" type="image/x-icon">
+	<link rel="icon" href="../assets/images/logo.png" type="image/x-icon">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="main.css">
+	<script type="importmap">
+	{
+		"imports": {
+			"three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+			"three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+		}
+	}
+	</script>
 </head>
 
 <body>
@@ -30,7 +38,7 @@
 	<!-- ==================== SPLASH / LOADING SCREEN ==================== -->
 	<div id="play" class="show">
 		<div class="splash-card">
-			<img src="/assets/images/logo.png" alt="NIT Trichy" class="splash-logo">
+			<img src="../assets/images/logo.png" alt="NIT Trichy" class="splash-logo">
 			<h1 class="splash-title">Virtual NIT Trichy</h1>
 			<p class="splash-subtitle">Explore the campus in 3D</p>
 
@@ -83,7 +91,7 @@
 		<div id="container"></div>
 
 		<audio id="pride_of_india" loop>
-			<source src="/assets/sounds/pride_of_india.mp4">
+			<source src="../assets/sounds/pride_of_india.mp4">
 		</audio>
 
 		<!-- HUD controls -->
