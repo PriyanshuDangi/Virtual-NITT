@@ -1,130 +1,65 @@
-body {
-	margin: 0;
-	background-color: #000;
-	color: #fff;
-	font-family: Monospace;
-	font-size: 14px;
-	line-height: 24px;
-	overscroll-behavior: none;
+/* ==============================
+   CSS Custom Properties
+   ============================== */
+:root {
+	--color-bg: #0f172a;
+	--color-bg-splash: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+	--color-surface: rgba(255, 255, 255, 0.06);
+	--color-surface-hover: rgba(255, 255, 255, 0.12);
+	--color-text: #f1f5f9;
+	--color-text-muted: #94a3b8;
+	--color-accent: #38bdf8;
+	--color-accent-hover: #7dd3fc;
+	--color-heart: #f43f5e;
+	--color-error: #ef4444;
+	--font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	--radius: 12px;
+	--radius-sm: 8px;
+	--transition: 0.2s ease;
 }
 
-#play a {
-	color: #2983ff;
+/* ==============================
+   Reset & Base
+   ============================== */
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: var(--font-family);
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--color-text);
+	background: var(--color-bg);
+	overscroll-behavior: none;
+	overflow: hidden;
+	-webkit-tap-highlight-color: transparent;
 }
 
 a {
-	color: #ff0;
+	color: var(--color-accent);
 	text-decoration: none;
-	font-weight: bold;
+	font-weight: 500;
+	transition: color var(--transition);
 }
 
 a:hover {
-	text-decoration: underline;
+	color: var(--color-accent-hover);
 }
 
 button {
 	cursor: pointer;
-	text-transform: uppercase;
+	font-family: var(--font-family);
+	border: none;
+	background: none;
 }
 
-#info {
-	position: absolute;
-	top: 0px;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	text-align: center;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	z-index: 1; /* TODO Solve this in HTML */
-	font-size: large;
-}
-
-a, button, input, select {
-	pointer-events: auto;
-}
-
-.dg.ac {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	z-index: 2 !important; /* TODO Solve this in HTML */
-}
-
-#overlay {
-	position: absolute;
-	font-size: 15px;
-	z-index: 2;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	background: rgba(0,0,0,0.7);
-}
-
-	#overlay button {
-		background: transparent;
-		border: 0;
-		border: 1px solid rgb(255, 255, 255);
-		border-radius: 4px;
-		color: #ffffff;
-		padding: 12px 18px;
-		text-transform: uppercase;
-		cursor: pointer;
-	}
-
-#notSupported {
-	width: 50%;
-	margin: auto;
-	background-color: #f00;
-	margin-top: 20px;
-	padding: 10px;
-}
-
-body {
-	background-color: #bfd0e3;
-	color: #000;
-}
-
-/* a {
-	color: #2983ff;
-} */
-
-#info{
-	/* font-size: 2em; */
-	top: auto;
-	bottom: 10px;
-	color: white;
-}
-
-#play {
-	height: 100vh;
-	width: 100vw;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	/* margin: 15px; */
-}
-
-#playButton{
-	font-size: 15px;
-	padding: 7px 11px;
-}
-
-/* #play > div{
-	height: 20%;
-} */
-
-.show{
+/* ==============================
+   Utility
+   ============================== */
+.show {
 	display: block;
 }
 
@@ -132,7 +67,409 @@ body {
 	display: none !important;
 }
 
+/* ==============================
+   Splash / Loading Screen
+   ============================== */
+#play {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--color-bg-splash);
+	z-index: 100;
+}
+
+.splash-card {
+	text-align: center;
+	max-width: 460px;
+	width: 90%;
+	padding: 40px 32px;
+	background: var(--color-surface);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: var(--radius);
+	backdrop-filter: blur(20px);
+}
+
+.splash-logo {
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-bottom: 16px;
+	box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+}
+
+.splash-title {
+	font-size: 28px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	margin-bottom: 4px;
+}
+
+.splash-subtitle {
+	color: var(--color-text-muted);
+	font-size: 16px;
+	margin-bottom: 28px;
+}
+
+.splash-instructions {
+	text-align: left;
+	background: rgba(0, 0, 0, 0.25);
+	border-radius: var(--radius-sm);
+	padding: 16px 20px;
+	margin-bottom: 24px;
+}
+
+.instruction-row {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	font-size: 14px;
+	color: var(--color-text-muted);
+}
+
+.instruction-row + .instruction-row {
+	margin-top: 10px;
+}
+
+.key-group {
+	display: flex;
+	gap: 4px;
+	flex-shrink: 0;
+}
+
+kbd {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	height: 30px;
+	padding: 0 8px;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 6px;
+	font-family: var(--font-family);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--color-text);
+}
+
+.icon-mouse {
+	font-size: 24px;
+	line-height: 1;
+	color: var(--color-text);
+}
+
+.splash-audio-note {
+	font-size: 13px;
+	color: var(--color-text-muted);
+	margin-bottom: 20px;
+}
+
+/* --- Progress bar --- */
+.loading-label {
+	font-size: 14px;
+	color: var(--color-text-muted);
+	margin-bottom: 10px;
+}
+
+.progress-bar {
+	width: 100%;
+	height: 6px;
+	background: rgba(255, 255, 255, 0.08);
+	border-radius: 3px;
+	overflow: hidden;
+	margin-bottom: 6px;
+}
+
+.progress-fill {
+	height: 100%;
+	width: 0%;
+	background: var(--color-accent);
+	border-radius: 3px;
+	transition: width 0.3s ease;
+}
+
+.loading-percent {
+	font-size: 13px;
+	color: var(--color-text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+/* --- Error --- */
+.error-text {
+	color: var(--color-error);
+	font-size: 14px;
+	padding: 12px;
+	background: rgba(239, 68, 68, 0.1);
+	border-radius: var(--radius-sm);
+	border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* --- Play button --- */
+.btn-play {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 48px;
+	margin-top: 20px;
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--color-bg);
+	background: var(--color-accent);
+	border-radius: var(--radius-sm);
+	transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+	box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25);
+}
+
+.btn-play:hover {
+	background: var(--color-accent-hover);
+	transform: translateY(-1px);
+	box-shadow: 0 6px 32px rgba(56, 189, 248, 0.35);
+}
+
+.btn-play:active {
+	transform: translateY(0);
+	box-shadow: 0 2px 12px rgba(56, 189, 248, 0.2);
+}
+
+.splash-links {
+	margin-top: 20px;
+	font-size: 14px;
+}
+
+/* ==============================
+   3D Experience (Main)
+   ============================== */
+#main {
+	position: fixed;
+	inset: 0;
+}
+
+#container {
+	width: 100%;
+	height: 100%;
+}
+
+#container canvas {
+	display: block;
+}
+
+/* ==============================
+   HUD (top-right controls)
+   ============================== */
+#hud {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	z-index: 10;
+}
+
+.hud-btn {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: var(--radius-sm);
+	color: var(--color-text);
+	font-size: 18px;
+	transition: background var(--transition);
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.hud-btn:hover {
+	background: rgba(0, 0, 0, 0.7);
+}
+
+#help-tooltip {
+	position: absolute;
+	top: 48px;
+	right: 0;
+	background: rgba(0, 0, 0, 0.85);
+	backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: var(--radius-sm);
+	padding: 14px 18px;
+	font-size: 13px;
+	line-height: 1.7;
+	color: var(--color-text-muted);
+	white-space: nowrap;
+	z-index: 11;
+}
+
+/* ==============================
+   Bottom Info Bar
+   ============================== */
+#info {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 10px 16px;
+	background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 13px;
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
+	z-index: 5;
+}
+
+#info a {
+	pointer-events: auto;
+	color: var(--color-accent);
+}
+
+.sep {
+	margin: 0 8px;
+	opacity: 0.4;
+}
+
 .heart {
-    color: red;
-    font-size: 1.8em;
+	color: var(--color-heart);
+	font-size: 1.1em;
+}
+
+/* ==============================
+   Mobile Joysticks
+   ============================== */
+#joystick-container {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 200px;
+	pointer-events: none;
+	z-index: 10;
+}
+
+.joystick {
+	position: absolute;
+	bottom: 36px;
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+	border: 2px solid rgba(255, 255, 255, 0.15);
+	pointer-events: auto;
+	touch-action: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#joystick-left {
+	left: 32px;
+}
+
+#joystick-right {
+	right: 32px;
+}
+
+.joystick-knob {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.25);
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	transition: transform 0.05s ease-out;
+	pointer-events: none;
+}
+
+/* ==============================
+   Responsive
+   ============================== */
+@media (max-width: 480px) {
+	.splash-card {
+		padding: 28px 20px;
+	}
+
+	.splash-title {
+		font-size: 22px;
+	}
+
+	.splash-subtitle {
+		font-size: 14px;
+	}
+
+	.splash-instructions {
+		padding: 12px 14px;
+	}
+
+	.btn-play {
+		padding: 12px 36px;
+		font-size: 15px;
+	}
+
+	#info {
+		font-size: 11px;
+		padding: 8px 12px;
+	}
+
+	.joystick {
+		width: 100px;
+		height: 100px;
+		bottom: 28px;
+	}
+
+	#joystick-left {
+		left: 20px;
+	}
+
+	#joystick-right {
+		right: 20px;
+	}
+
+	.joystick-knob {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+	.splash-card {
+		padding: 32px 24px;
+	}
+
+	.joystick {
+		width: 110px;
+		height: 110px;
+	}
+}
+
+@media (max-height: 500px) {
+	.splash-card {
+		padding: 16px 20px;
+	}
+
+	.splash-logo {
+		width: 48px;
+		height: 48px;
+		margin-bottom: 8px;
+	}
+
+	.splash-title {
+		font-size: 20px;
+	}
+
+	.splash-subtitle {
+		margin-bottom: 12px;
+	}
+
+	.splash-instructions {
+		padding: 10px 14px;
+		margin-bottom: 12px;
+	}
 }
