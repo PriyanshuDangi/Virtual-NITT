@@ -271,11 +271,12 @@
 			// pride_of_india.play();
 
 		}, function (xhr) {
-			let num = (xhr.loaded / xhr.total * 100);
-			if (isFinite(num)) {
-				percentageDiv.textContent = ((xhr.loaded / xhr.total * 100)).toFixed(1) + '% loaded';
+			if (xhr.lengthComputable) {
+				let percent = Math.min(xhr.loaded / xhr.total * 100, 100);
+				percentageDiv.textContent = percent.toFixed(1) + '% loaded';
+			} else {
+				percentageDiv.textContent = (xhr.loaded / (1024 * 1024)).toFixed(1) + ' MB loaded';
 			}
-			console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
 		}, function (e) {
 
