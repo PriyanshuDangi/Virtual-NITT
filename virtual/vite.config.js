@@ -1,7 +1,8 @@
-module.exports = {
-    root: 'code',
-    build: {
-      outDir: './dist'
-    }
-  }
-  
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  root: 'code',
+  build: {
+    outDir: '../dist',
+  },
+});
