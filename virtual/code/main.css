@@ -343,7 +343,7 @@ kbd {
 }
 
 /* ==============================
-   Mobile Joysticks
+   Mobile Joystick
    ============================== */
 #joystick-container {
 	position: absolute;
@@ -370,12 +370,8 @@ kbd {
 	justify-content: center;
 }
 
-#joystick-left {
+#joystick-move {
 	left: 32px;
-}
-
-#joystick-right {
-	right: 32px;
 }
 
 .joystick-knob {
@@ -424,12 +420,8 @@ kbd {
 		bottom: 28px;
 	}
 
-	#joystick-left {
+	#joystick-move {
 		left: 20px;
-	}
-
-	#joystick-right {
-		right: 20px;
 	}
 
 	.joystick-knob {

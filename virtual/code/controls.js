@@ -16,19 +16,17 @@ export const movement = {
 
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
-let prevTime = performance.now();
 
-// Euler for manual camera rotation on mobile
 const euler = new THREE.Euler(0, 0, 0, 'YXZ');
 const PI_2 = Math.PI / 2;
 
 let pointerLockControls = null;
 let isTouch = false;
 
-// --- Joystick state ---
-const joystickState = {
-    look: { x: 0, y: 0 },
-};
+// Touch-drag look state
+const touchLook = { dx: 0, dy: 0 };
+let lookTouchId = null;
+let lastLookPos = { x: 0, y: 0 };
 
 export function initControls(mainEl) {
     isTouch = isTouchDevice();
@@ -36,7 +34,7 @@ export function initControls(mainEl) {
     if (!isTouch) {
         initDesktopControls(mainEl);
     } else {
-        initMobileUI();
+        initMobileControls(mainEl);
     }
 }
 
@@ -94,13 +92,13 @@ function onKeyUp(event) {
     }
 }
 
-// --- Mobile: dual virtual joysticks ---
-function initMobileUI() {
+// --- Mobile: left joystick + screen drag for look ---
+function initMobileControls(mainEl) {
     const joystickContainer = document.getElementById('joystick-container');
     if (joystickContainer) joystickContainer.classList.add('show');
 
-    createJoystick('joystick-left', handleMoveJoystick);
-    createJoystick('joystick-right', handleLookJoystick);
+    createJoystick('joystick-move', handleMoveJoystick);
+    initTouchLook(mainEl);
 }
 
 function createJoystick(elementId, onMove) {
@@ -129,6 +127,7 @@ function createJoystick(elementId, onMove) {
 
     el.addEventListener('touchstart', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         if (active) return;
         const touch = e.changedTouches[0];
         touchId = touch.identifier;
@@ -165,17 +164,50 @@ function createJoystick(elementId, onMove) {
     document.addEventListener('touchcancel', endTouch);
 }
 
+// Drag anywhere on screen (that isn't the joystick) to look around
+function initTouchLook(mainEl) {
+    mainEl.addEventListener('touchstart', (e) => {
+        if (lookTouchId !== null) return;
+        const touch = e.changedTouches[0];
+        lookTouchId = touch.identifier;
+        lastLookPos.x = touch.clientX;
+        lastLookPos.y = touch.clientY;
+        touchLook.dx = 0;
+        touchLook.dy = 0;
+    }, { passive: true });
+
+    mainEl.addEventListener('touchmove', (e) => {
+        for (const touch of e.changedTouches) {
+            if (touch.identifier === lookTouchId) {
+                touchLook.dx = touch.clientX - lastLookPos.x;
+                touchLook.dy = touch.clientY - lastLookPos.y;
+                lastLookPos.x = touch.clientX;
+                lastLookPos.y = touch.clientY;
+                break;
+            }
+        }
+    }, { passive: true });
+
+    const endLook = (e) => {
+        for (const touch of e.changedTouches) {
+            if (touch.identifier === lookTouchId) {
+                lookTouchId = null;
+                touchLook.dx = 0;
+                touchLook.dy = 0;
+                break;
+            }
+        }
+    };
+    mainEl.addEventListener('touchend', endLook, { passive: true });
+    mainEl.addEventListener('touchcancel', endLook, { passive: true });
+}
+
 function handleMoveJoystick(nx, ny) {
     const deadzone = 0.15;
     movement.forward = ny < -deadzone ? Math.abs(ny) : 0;
     movement.backward = ny > deadzone ? ny : 0;
     movement.left = nx < -deadzone ? Math.abs(nx) : 0;
     movement.right = nx > deadzone ? nx : 0;
-}
-
-function handleLookJoystick(nx, ny) {
-    joystickState.look.x = nx;
-    joystickState.look.y = ny;
 }
 
 // --- Update (called each frame) ---
@@ -192,13 +224,17 @@ export function updateMovement(delta) {
     if (movement.left || movement.right) velocity.x -= direction.x * speed * delta;
 
     if (isTouch) {
-        // Manual camera rotation from right joystick
-        const lookSpeed = 1.8;
+        // Apply accumulated drag delta to camera rotation
+        const sensitivity = 0.003;
         euler.setFromQuaternion(camera.quaternion);
-        euler.y -= joystickState.look.x * lookSpeed * delta;
-        euler.x -= joystickState.look.y * lookSpeed * delta;
+        euler.y -= touchLook.dx * sensitivity;
+        euler.x -= touchLook.dy * sensitivity;
         euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
         camera.quaternion.setFromEuler(euler);
+
+        // Consume the delta so it doesn't keep rotating
+        touchLook.dx = 0;
+        touchLook.dy = 0;
 
         // Move in camera look direction
         const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
